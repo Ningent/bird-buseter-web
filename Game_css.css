@@ -1,0 +1,170 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    background-image: url("drawable/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    position: relative;
+}
+
+.fusil {
+    position: absolute;
+    width: 300px;
+    height: 200px;
+    top: 75vh;
+    left: 38vw;
+}
+
+.ball {
+    position: absolute;
+    width: 75px;
+    height: 100px;
+}
+
+.poto {
+    position: absolute;
+    width: 550px;
+    height: 500px;
+    top: 10vh;
+    left: 30vw;
+}
+
+.score {
+    position: absolute;
+    display: flex;
+    color: #fff;
+    font-size: 50px;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 3.4vh;
+}
+
+.muni {
+    width: 40px;
+    height: 40px;
+    top: 100px; 
+    margin-left:680px;
+}
+
+.arbre {
+    position: absolute;
+    width:400px;
+    height: 400px;
+    top:250px;
+    margin-left:90px;
+}
+
+.triangle {
+    position: absolute;
+    top :3vh;
+    left:2vw;
+    width: 0;
+    height: 0;
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+    border-right: 50px solid #efefef; 
+}
+
+.triangle {
+    position: absolute;
+    top :3vw;
+    width: 0;
+    height: 0;
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+    border-right: 50px solid #efefef; 
+}
+
+
+/* Écran mobile */
+@media screen and (max-width: 480px) {
+    body {
+        background-image: url("drawable/bg.jpg");
+        background-repeat: no-repeat;
+        background-size: 350%;
+        position: relative;
+    }
+
+    .fusil {
+        width: 180px;
+        height: 90px;
+        top: 85vh;
+        left: 30vw;
+    }
+
+    .poto {
+        width: 300px;
+        height: 300px;
+        top: 35vh;
+        left: 10vw;
+    }
+
+    .score {
+        font-size: 30px;
+    }
+
+    .muni {
+        width: 40px;
+        height: 40px; 
+        top: 80px; 
+        margin-left:100px;
+    }
+
+    .arbre {
+        position: absolute;
+        width:200px;
+        height: 200px;
+        top:450px;
+        margin-left:-80px;
+    }
+
+}    
+
+/* Écran tablette */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    body {
+        background-image: url("drawable/bg.jpg");
+        background-repeat: no-repeat;
+        background-size: 200%;
+        position: relative;
+    }
+
+    .fusil {
+        width: 200px;
+        height: 100px;
+        top: 85vh;
+        left: 35vw;
+    }
+
+    .poto {
+        width: 400px;
+        height: 400px;
+        top: 25vh;
+        left: 25vw;
+    }
+
+    .score {
+        font-size: 40px;
+    }
+
+    .muni {
+        width: 40px;
+        height: 40px; 
+        top: 80px; 
+        margin-left:300px;
+    }
+
+    .arbre{
+        position:absolute;
+        width:200px;
+        height: 200px;
+        top:390px;
+        margin-left: 20px;
+    }
+
+}
