@@ -43,6 +43,8 @@ window.onload = function () {
     //dictioner
     var dic_pigon = {};
     var dic_pigonRect = {};
+    let arr_aigle = {};
+    let arr_aigle_hit = {};
 
     var isDay = true;
 
@@ -51,7 +53,7 @@ window.onload = function () {
         muni.className = "muni";
         muni.src = "drawable/ball.png";
         muni.style.position = "absolute";
-        muni.style.left = (muni_distance * i) + "px";
+        muni.style.left = (muni_distance * i) + "px";  
         muni_arr.push(muni);
         document.body.appendChild(muni);
     }
@@ -384,7 +386,8 @@ window.onload = function () {
             pigon.style.left = pigonX + "px";
             pigon.style.top = pigonY + "px";
     
-            var pigonRect = pigon.getBoundingClientRect();
+            var pigonRect = pigon.getBoundingClientRect("img");
+
     
             dic_pigon[index] = pigon;
             dic_pigonRect[index] = pigonRect;
@@ -407,17 +410,91 @@ window.onload = function () {
         arbre.src = "drawable/arbre_nuit.png";
     }
 
-    var arbreRect = arbre.getBoundingClientRect();
 
-    var tronc_height = arbreRect.height * 0.5; 
-    var tronc_width = arbreRect.width * 0.2; 
+    function spawnAigle() {
+        var aigle = document.createElement("img");
+        aigle.className = "aigle";
+        aigle.style.position = "absolute";
+        aigle.style.opacity = "0";
+        aigle.style.transform = "scaleX(-1)";
+        aigle.src = "drawable/aigle_vole1.png";
+        aigle.style.zIndex = 5;
+        document.body.appendChild(aigle);
+    
+        let computedStyle = getComputedStyle(aigle);
+        let aigleX = parseFloat(computedStyle.left);
+        let aigleY = parseFloat(computedStyle.top);
+        let aigle_velo = 2;
+        let aigle_vole = true;
+    
+        setInterval(() => {
+            aigle.src = aigle_vole ? "drawable/aigle_vole1.png" : "drawable/aigle_vole2.png";
+            aigle_vole = !aigle_vole;
+        }, 300);
+    
+        // Logique pour les appareils mobiles
+        if (screenX <= 408) {
+            // Logique spécifique pour les mobiles
+            configureMovement(aigle, aigleX, aigleY, aigle_velo, 0.03, 0.57);
+        }
+        // Logique pour les tablettes
+        else if (screenX >= 481 && screenX <= 768) {
+            // Logique spécifique pour les tablettes
+            configureMovement(aigle, aigleX, aigleY, aigle_velo, 0.10, 0.68);
+        }
+        // Logique pour les PC
+        else {
+            // Logique spécifique pour les PC
+            configureMovement(aigle, aigleX, aigleY, aigle_velo, 0.14, 0.57);
+        }
+    }
+    
+    function configureMovement(aigle, aigleX, aigleY, aigle_velo, limitXFactor, limitYFactor) {
+        let nit_boom = document.createElement("img");
+        let nie = document.createElement("img");
+        let nid_cond = false;
+    
+        setInterval(() => {
+            aigle.style.opacity = "1";
+    
+            if (aigleX > (window.innerWidth * limitXFactor)) {
+                aigleX -= aigle_velo;
+            }
+    
+            if (aigleY <= (window.innerHeight * limitYFactor)) {
+                aigleY += aigle_velo + 2;
+            }
+    
+            if (aigleX <= (screenX * limitXFactor)) {
+                aigle.style.transform = "scaleX(1)";
+                if (!nid_cond) {
+                    nit_boom.position = "absolute";
+                    nit_boom.src = "drawable/boom.png";
+                    nit_boom.className = "nie_boom";
+                    nit_boom.style.zIndex = 3;
+                    document.body.appendChild(nit_boom);
+                    setTimeout(() => nit_boom.remove(), 2000);
+                    nid_cond = true;
+                }
+    
+                nie.position = "absolute";
+                nie.src = "drawable/nie_aigle.png";
+                nie.className = "nie_aigle";
+                nie.style.zIndex = 2;
+                document.body.appendChild(nie);
+            }
+    
+            aigle.style.left = `${aigleX}px`;
+            aigle.style.top = `${aigleY}px`;
+    
+            arr_aigle[0] = aigle;
+            arr_aigle_hit[0] = aigle.getBoundingClientRect();
+        }, FPS);
+    }
+    
+    // Appeler spawnAigle au chargement
+    spawnAigle(); 
 
-    var tronc_div = {
-        left: arbreRect.left + (arbreRect.width - tronc_width) / 2,
-        right: arbreRect.left + (arbreRect.width - tronc_width) / 2 + tronc_width,
-        top: arbreRect.bottom - tronc_height,
-        bottom: arbreRect.bottom
-    };
 
     //ball
     fusil.addEventListener('click', () => {
@@ -453,11 +530,10 @@ window.onload = function () {
         ball.style.position = "absolute";
         ball.style.width = "20px";
         ball.style.height = "20px";
-        ball.style.left = `${endX - 10}px`;
+        ball.style.left = `${endX - 10}px`; 
         ball.style.top = `${endY - 10}px`;
         document.body.appendChild(ball);
 
-        var ballRect = ball.getBoundingClientRect();
 
         const ballInterval = setInterval(() => {
             const ballX = parseFloat(ball.style.left) + Math.cos(angleRad) * 8;
@@ -489,9 +565,11 @@ window.onload = function () {
         var score = document.getElementById("score");
 
         //code colision ici
+        let aigleColision = false;
         setInterval(() => {
-            var ballRect = ball.getBoundingClientRect();
+            var ballRect = ball.getBoundingClientRect(); // Assurez-vous que `ball` est bien défini
 
+            // Vérification des collisions avec les pigeons
             for (var i = 0; i < 4; i++) {
                 var Newpigon = dic_pigon[i];
                 var NewpigonRect = dic_pigonRect[i];
@@ -504,7 +582,7 @@ window.onload = function () {
                     NewpigonRect.bottom > ballRect.top
                 ) {
                     kill++;
-                    score.textContent = `Score: ${kill}`;
+                    score.textContent = `Score:${kill}`;
                     console.log("colision");
                     Newpigon.remove();
                     ball.remove();
@@ -515,17 +593,35 @@ window.onload = function () {
                 }
             }
 
-            if (
-                ballRect.left < tronc_div.right &&
-                ballRect.right > tronc_div.left &&
-                ballRect.top < tronc_div.bottom &&
-                ballRect.bottom > tronc_div.top
-            )
-            {
-                ball.remove();
-            }
+            // Vérification des collisions avec l'aigle
+            let NewAigleHit = arr_aigle_hit[0];
+            let NewAigle = arr_aigle[0];
 
-        });
+            if (
+                NewAigleHit &&
+                NewAigleHit.left < ballRect.right &&
+                NewAigleHit.right > ballRect.left &&
+                NewAigleHit.top < ballRect.bottom &&
+                NewAigleHit.bottom > ballRect.top &&
+                !aigleColision
+            ) {
+                NewAigle.remove();
+                aigleColision = true;
+                console.log("Aigle -> colision");
+                kill -= 10;
+
+                if (kill < 0) {
+                    kill = 0;
+                }
+
+                score.textContent = `Score:${kill}`;
+
+                setTimeout(() => {
+                    aigleColision = false;
+                    spawnAigle();
+                }, 1000);
+            }
+        }, FPS);
 
     });
 };

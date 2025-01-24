@@ -79,6 +79,29 @@ body {
     border-bottom: 25px solid transparent;
     border-right: 50px solid #efefef; 
 }
+.aigle {
+    position: absolute;
+    width: 15%;
+    height: 12%;
+    top:1%;
+    left: 80%;
+}
+
+.nie_boom {
+    position:absolute;
+    width:10%;
+    height:8%;
+    top:65%;
+    left:16%;
+}
+
+.nie_aigle {
+    position:absolute;
+    width:10%;
+    height:8%;
+    top:65%;
+    left:16%;
+}
 
 
 /* Écran mobile */
@@ -121,6 +144,29 @@ body {
         height: 200px;
         top:450px;
         margin-left:-80px;
+    }
+
+    .aigle {
+        position: absolute;
+        width: 20%;
+        height: 15%;
+        top:1%;
+        left: 80%;
+    }
+    .nie_boom {
+        position:absolute;
+        width:10%;
+        height:8%;
+        top:65%;
+        left:3%;
+    }
+    
+    .nie_aigle {
+        position:absolute;
+        width:10%;
+        height:8%;
+        top:65%;
+        left:3%;
     }
 
 }    
@@ -166,5 +212,27 @@ body {
         top:390px;
         margin-left: 20px;
     }
-
+    
+    .aigle {
+        position: absolute;
+        width: 17%;
+        height: 13%;
+        top:1%;
+        left: 80%;
+    }
+    .nie_boom {
+        position:absolute;
+        width:10%;
+        height:8%;
+        top:78%;
+        left:13%;
+    }
+    
+    .nie_aigle {
+        position:absolute;
+        width:10%;
+        height:8%;
+        top:78%;
+        left:13%;
+    }
 }
